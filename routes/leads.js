@@ -7,26 +7,26 @@ const leads = require('../controllers/leads');
 const ExpressError = require('../utils/ExpressError');
 const Lead = require('../models/leads');
 
-const {validateLead} = require('../middleware');
+const {isLoggedIn,validateLead} = require('../middleware');
 
 
 
 
 router.route('/leads')
-    .get(catchAsync(leads.index))
-    .post(validateLead, catchAsync(leads.newLead))
+    .get(isLoggedIn,catchAsync(leads.index))
+    .post(isLoggedIn,validateLead, catchAsync(leads.newLead))
 
 router.get('/leads/new', leads.renderNewLead)
 
 
 router.route('/leads/:id')
-    .get(catchAsync(leads.showLeadById))
-    .put(validateLead, catchAsync(leads.editLead))
-    .delete(catchAsync(leads.deleteLead))
+    .get(isLoggedIn,catchAsync(leads.showLeadById))
+    .put(isLoggedIn,validateLead, catchAsync(leads.editLead))
+    .delete(isLoggedIn,catchAsync(leads.deleteLead))
 
 
 
-router.get('/leads/:id/edit', catchAsync(leads.renderLeadEditPage))
+router.get('/leads/:id/edit', isLoggedIn,catchAsync(leads.renderLeadEditPage))
 
 
 
