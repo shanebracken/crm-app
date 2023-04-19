@@ -68,3 +68,8 @@ passport.deserializeUser(User.deserializeUser());
 app.listen(3000, () => {
   console.log('Serving on port 3000')
 })
+<<<<<<< Updated upstream
+=======
+
+// commit 4/19
+>>>>>>> Stashed changes
