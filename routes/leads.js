@@ -28,6 +28,11 @@ router.route('/leads/:id')
 
 router.get('/leads/:id/edit', catchAsync(leads.renderLeadEditPage))
 
+router.put('/leads/:id/contact', catchAsync (leads.incrementTimesContacted))
+
+  
+    
+
 
 
 

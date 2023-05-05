@@ -95,3 +95,27 @@
 
 
 </form>
+<a id="contact-btn" class="btn btn-success text-white fw-bold" href="#">Make contact</a>
+<script>
+  const contactBtns = document.querySelectorAll('#contact-btn');
+
+  contactBtns.forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      event.preventDefault(); // prevent default redirect behavior
+
+      // Your code to increment timesContacted goes here
+
+      // Make an AJAX request to the server to update the timesContacted value
+      const leadId = '<%= lead._id %>'; // replace with the actual lead ID
+      fetch(`/leads/${leadId}/contact`, {
+        method: 'PUT'
+      })
+      .then(response => {
+        // handle the response as needed
+      })
+      .catch(error => {
+        // handle any errors
+      });
+    });
+  });
+</script>

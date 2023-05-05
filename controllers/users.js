@@ -39,3 +39,14 @@ module.exports.logout = (req, res) => {
 module.exports.renderHome = (req, res) => {
     res.render('users/home');
 }
+
+module.exports.incrementTimesContacted = async function (leadId) {
+    try {
+      const lead = await Lead.findById(leadId);
+      lead.timesContacted += 1;
+      await lead.save();
+      return lead;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };

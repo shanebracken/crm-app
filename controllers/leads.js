@@ -55,3 +55,19 @@ module.exports.editLead= async (req, res) => {
     const title = `Edit ${lead.name} ${lead.lastName}`
     res.render('leads/edit', { lead, title, status, states })
   }
+
+  module.exports.incrementTimesContacted = async (req, res) => {
+    try {
+      const lead = await Lead.findById(req.params.id);
+      if (!lead) {
+        return res.status(404).send('Lead not found');
+      }
+      lead.timesContacted += 1;
+      await lead.save();
+      res.sendStatus(200);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  
+  }

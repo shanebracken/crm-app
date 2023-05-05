@@ -14,6 +14,10 @@ const leadSchema = new Schema ({
     notes: String,
     created: String,
     lastUpdated: String,
+    timesContacted: {
+        type: Number,
+        default: 0
+      }
     });
 
 

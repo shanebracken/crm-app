@@ -1,35 +1,60 @@
 <% layout('layouts/boilerplate') %> 
 <h1 class="text-center">All Leads</h1>
        
-        <% for (let lead of leads){%>
-            <div class="card">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="card-body text-center">
-                            <h5 class="card-title text-capitalize "><%=lead.name%> <%=lead.lastName%></h5>
-                            <h6 class="card-subtitle mb-2 text-muted"><%=lead.status%></h6>
-                            <p class="card-text">
-                                <strong>Phone Number:</strong> <%=lead.phonenumber%> 
-                                <br>
-                                <strong>Email:</strong> <%=lead.email%>
-                            </p>
-                            <p class="card-text">
-                                <small class="text-muted"><%=lead.city%>, <%=lead.state%></small>
-                            </p>
-                            <p class="card-text">
-                                <small class="text-muted">Created:<%=lead.created%>  Last update:<%=lead.lastUpdated%></small>
-                            </p>
-                            <a class="btn btn-info text-white fw-bold" href="/leads/<%=lead._id%>">View Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            
-            
+<% for (let lead of leads){%>
+  <div class="card">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card-body text-center">
+          <h5 class="card-title text-capitalize "><%=lead.name%> <%=lead.lastName%></h5>
+          <h6 class="card-subtitle mb-2 text-muted"><%=lead.status%></h6>
+          <h6 class="card-subtitle mb-2 text-muted">Number of contacts:<%=lead.timesContacted%></h6>
+          <p class="card-text">
+            <strong>Phone Number:</strong> <%=lead.phonenumber%> 
+            <br>
+            <strong>Email:</strong> <%=lead.email%>
+          </p>
+          <p class="card-text">
+            <small class="text-muted"><%=lead.city%>, <%=lead.state%></small>
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Created:<%=lead.created%>  Last update:<%=lead.lastUpdated%></small>
+          </p>
+          <a class="btn btn-info text-white fw-bold" href="/leads/<%=lead._id%>">View Details</a>
+          <a class="btn btn-success text-white fw-bold" data-lead-id="<%=lead._id%>">Make contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }%>
 
-            <% }%>
-            <div class="btn-group d-flex justify-content-center">
-                <a class="btn btn-primary btn-lg mx-1" href="/leads/new">Enter New Lead</a>
-</div>
+  <div class="btn-group d-flex justify-content-center">
+    <a class="btn btn-primary btn-lg mx-1" href="/leads/new">Enter New Lead</a>
+  </div>
+
+  <script>
+    // Attach an event listener to all "Make contact" buttons
+    const contactButtons = document.querySelectorAll('.btn-success');
+    contactButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Extract the lead ID from the button's data-lead-id attribute
+        const leadId = button.getAttribute('data-lead-id');
+        // Send a PUT request to the server
+        fetch(`/leads/${leadId}/contact`, { method: 'PUT' })
+          .then(response => {
+            if (response.ok) {
+              console.log('Contact made successfully!');
+              location.reload(); // Reload the page
+            } else {
+              console.error('Failed to make contact.');
+            }
+          })
+          .catch(error => {
+            console.error(`Error making contact: ${error.message}`);
+          });
+      });
+    });
+  </script>
+
+
 

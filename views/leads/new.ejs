@@ -14,6 +14,28 @@
         <button>submit</button>
         <a href="/leads">cancel</a>
     </form> -->
+
+    <script>
+      function makeContact(leadId) {
+        fetch(`/leads/${leadId}/contact`, { method: 'PUT' })
+          .then(response => {
+            if (response.ok) {
+              const timesContactedEl = document.getElementById(`timesContacted-${leadId}`);
+              if (timesContactedEl) {
+                const newTimesContacted = parseInt(timesContactedEl.textContent) + 1;
+                timesContactedEl.textContent = newTimesContacted;
+              }
+            } else {
+              throw new Error('Failed to update lead');
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            alert('Failed to update lead');
+          });
+      }
+      </script>
+      
   <div class="row">
     <h1 class="text-center">New Lead</h1>
     <div class="col-6 offset-3">
